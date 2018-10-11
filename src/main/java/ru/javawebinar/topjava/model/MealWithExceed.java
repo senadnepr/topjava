@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class MealWithExceed {
+
+    private final long id;
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -12,7 +14,8 @@ public class MealWithExceed {
 
     private final boolean exceed;
 
-    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed) {
+    public MealWithExceed(long id, LocalDateTime dateTime, String description, int calories, boolean exceed) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
@@ -33,6 +36,12 @@ public class MealWithExceed {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 //        return dateTime.format(formatter);
 //    }
+
+
+    public long getId() {
+        return id;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
