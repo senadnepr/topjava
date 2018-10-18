@@ -9,14 +9,14 @@ import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 public class ProfileRestController extends AbstractUserController {
 
     public User get() {
-        return super.get(authUserId());
+        return super.get(authUserId("1"));
     }
 
     public void delete() {
-        super.delete(authUserId());
+        super.delete(authUserId("1"));
     }
 
     public void update(User user) {
-        super.update(user, authUserId());
+        super.update(user, authUserId("1"));
     }
 }
