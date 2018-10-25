@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,6 +51,8 @@ public class JdbcMealRepositoryImpl implements MealRepository {
             if (meal.isNew()) {
                 Number newKey = insertMeal.executeAndReturnKey(map);
                 meal.setId(newKey.intValue());
+            } else if (userId != jdbcTemplate.queryForObject("SELECT user_id FROM meals WHERE id=?", new Object[]{ meal.getId() }, Integer.class)){
+                throw new NotFoundException("");
             } else if (namedParameterJdbcTemplate.update(
                     "UPDATE meals SET user_id=:user_id, description=:description, " +
                             "calories=:calories, datetime=:datetime WHERE id=:id", map) == 0) {
@@ -65,13 +68,13 @@ public class JdbcMealRepositoryImpl implements MealRepository {
 
     @Override
     public Meal get(int id, int userId) {
-        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE id=? AND user_id=?", ROW_MAPPER, id, userId);
+        List<Meal> meals = jdbcTemplate.query("SELECT * FROM meals WHERE id=? AND user_id=? ORDER BY datetime DESC", ROW_MAPPER, id, userId);
         return DataAccessUtils.singleResult(meals);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=?", ROW_MAPPER, userId);
+        return jdbcTemplate.query("SELECT * FROM meals WHERE user_id=? ORDER BY datetime DESC, user_id", ROW_MAPPER, userId);
     }
 
     @Override

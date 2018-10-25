@@ -7,13 +7,11 @@ import org.springframework.util.CollectionUtils;
 import ru.javawebinar.topjava.MealTestData;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
-import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.util.Util;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -34,16 +32,16 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private Map<Integer, Map<Integer, Meal>> repository = new ConcurrentHashMap<>();
     private AtomicInteger counter = new AtomicInteger(0);
 
-    {
-        repository.clear();
-        for (int i = 0; i < 3; i++) {
-            save(MealTestData.meals.get(i), USER_ID);
-        }
-        for (int i = 3; i < 6; i++) {
-            save(MealTestData.meals.get(i), ADMIN_ID);
-        }
-
-    }
+//    {
+//        repository.clear();
+//        for (int i = 0; i < 3; i++) {
+//            save(MealTestData.MEALS.get(i), USER_ID);
+//        }
+//        for (int i = 3; i < 6; i++) {
+//            save(MealTestData.MEALS.get(i), ADMIN_ID);
+//        }
+//
+//    }
 
     @Override
     public Meal save(Meal meal, int userId) {

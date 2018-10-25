@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS meals;
 
 DROP SEQUENCE IF EXISTS global_seq;
@@ -35,3 +35,4 @@ CREATE TABLE meals
   datetime         TIMESTAMP default now() NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
+CREATE UNIQUE INDEX  meals_unique_datetime_idx ON meals (datetime);
